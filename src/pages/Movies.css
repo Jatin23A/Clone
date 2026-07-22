@@ -1,0 +1,23 @@
+.home-section{
+
+padding:80px 8%;
+
+}
+
+.home-section h2{
+
+font-size:2rem;
+
+margin-bottom:40px;
+
+}
+
+.movie-grid{
+
+display:grid;
+
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+
+gap:30px;
+
+}

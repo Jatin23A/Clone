@@ -1,0 +1,37 @@
+.search-page {
+  padding: 40px;
+  color: white;
+  text-align: center;
+}
+
+.search-page h1 {
+  color: #E50914;
+  margin-bottom: 20px;
+}
+
+.search-page input {
+  width: 60%;
+  max-width: 500px;
+  padding: 12px;
+  border-radius: 6px;
+  border: none;
+  outline: none;
+  font-size: 16px;
+}
+
+.search-results {
+  margin-top: 30px;
+  display: grid;
+  gap: 15px;
+}
+
+.search-card {
+  background: #222;
+  padding: 15px;
+  border-radius: 8px;
+  transition: 0.3s;
+}
+
+.search-card:hover {
+  background: #E50914;
+}
