@@ -7,7 +7,10 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "oxlint",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "server": "npm --prefix server run dev",
+    "seed": "npm --prefix server run seed",
+    "install:all": "npm install && npm --prefix server install"
   },
   "dependencies": {
     "express": "^5.2.1",

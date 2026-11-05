@@ -1,24 +1,22 @@
-import React, { useState } from "react";
+import { useEffect, useState } from "react";
+import { api } from "../api";
+import MovieCard from "../components/MovieCard";
 import "./Search.css";
 
 function Search() {
-  const movieList = [
-    "Avengers",
-    "Batman",
-    "Joker",
-    "Interstellar",
-    "Inception",
-    "Spider-Man",
-    "Titanic",
-    "Iron Man",
-    "Thor",
-  ];
-
   const [search, setSearch] = useState("");
+  const [movies, setMovies] = useState([]);
+  const [error, setError] = useState("");
 
-  const filteredMovies = movieList.filter((movie) =>
-    movie.toLowerCase().includes(search.toLowerCase())
-  );
+  // Debounced server-side search
+  useEffect(() => {
+    const t = setTimeout(() => {
+      api(`/movies?search=${encodeURIComponent(search)}&limit=40`)
+        .then((d) => { setMovies(d.movies); setError(""); })
+        .catch((e) => setError(e.message));
+    }, 300);
+    return () => clearTimeout(t);
+  }, [search]);
 
   return (
     <div className="search-page">
@@ -31,17 +29,12 @@ function Search() {
         onChange={(e) => setSearch(e.target.value)}
       />
 
-      <div className="search-results">
-        {filteredMovies.length > 0 ? (
-          filteredMovies.map((movie, index) => (
-            <div className="search-card" key={index}>
-              {movie}
-            </div>
-          ))
-        ) : (
-          <p>No movies found.</p>
-        )}
+      {error && <p className="mv-error">{error}</p>}
+
+      <div className="mv-grid">
+        {movies.map((m) => <MovieCard key={m._id} movie={m} />)}
       </div>
+      {!error && movies.length === 0 && <p className="mv-status">No movies found.</p>}
     </div>
   );
 }

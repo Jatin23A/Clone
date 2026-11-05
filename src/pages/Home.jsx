@@ -1,13 +1,13 @@
+import { useNavigate } from "react-router-dom";
 import "./Home.css";
 
 function Home() {
+  const navigate = useNavigate();
+
   return (
     <section className="hero">
-
       <div className="overlay">
-
         <div className="hero-content">
-
           <span className="tag">#1 Movie Platform</span>
 
           <h1>
@@ -22,21 +22,16 @@ function Home() {
           </p>
 
           <div className="hero-buttons">
-
-            <button className="watch-btn">
+            <button className="watch-btn" onClick={() => navigate("/movies")}>
               ▶ Watch Now
             </button>
 
-            <button className="browse-btn">
+            <button className="browse-btn" onClick={() => navigate("/movies")}>
               Browse Movies
             </button>
-
           </div>
-
         </div>
-
       </div>
-
     </section>
   );
 }

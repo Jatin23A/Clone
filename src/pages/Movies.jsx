@@ -1,67 +1,43 @@
-import Hero from "../pages/Home";
-import MovieCard from "../pages/Category";
+import { useEffect, useState } from "react";
+import { Link, useSearchParams } from "react-router-dom";
+import { api } from "../api";
+import MovieCard from "../components/MovieCard";
 import "./Movies.css";
 
-const movies = [
+function Movies() {
+  const [params] = useSearchParams();
+  const category = params.get("category") || "";
+  const [movies, setMovies] = useState([]);
+  const [status, setStatus] = useState("loading");
 
-{
-title:"Interstellar",
-image:"https://image.tmdb.org/t/p/w500/rAiYTfKGqDCRIIqo664sY9XZIvQ.jpg"
-},
+  useEffect(() => {
+    setStatus("loading");
+    const qs = category ? `?category=${encodeURIComponent(category)}&limit=60` : "?limit=60";
+    api(`/movies${qs}`)
+      .then((d) => { setMovies(d.movies); setStatus("done"); })
+      .catch((e) => setStatus(e.message));
+  }, [category]);
 
-{
-title:"Batman",
-image:"https://image.tmdb.org/t/p/w500/74xTEgt7R36Fpooo50r9T25onhq.jpg"
-},
+  return (
+    <section className="mv-page">
+      <h2>
+        {category ? "Movies" : "🔥 All Movies"}
+        {category && (
+          <span className="mv-chip">
+            {category} · <Link to="/movies">clear</Link>
+          </span>
+        )}
+      </h2>
 
-{
-title:"Joker",
-image:"https://image.tmdb.org/t/p/w500/udDclJoHjfjb8Ekgsd4FDteOkCU.jpg"
-},
+      {status === "loading" && <p className="mv-status">Loading…</p>}
+      {status !== "loading" && status !== "done" && <p className="mv-error">{status}</p>}
+      {status === "done" && movies.length === 0 && <p className="mv-status">No movies found.</p>}
 
-{
-title:"Avengers",
-image:"https://image.tmdb.org/t/p/w500/or06FN3Dka5tukK1e9sl16pB3iy.jpg"
-}
-
-];
-
-function Movies(){
-
-return(
-
-<>
-
-<Hero/>
-
-<section className="home-section">
-
-<h2>🔥 Trending Movies</h2>
-
-<div className="movie-grid">
-
-{movies.map((movie,index)=>
-
-<MovieCard
-
-key={index}
-
-title={movie.title}
-
-image={movie.image}
-
-/>
-
-)}
-
-</div>
-
-</section>
-
-</>
-
-)
-
+      <div className="mv-grid">
+        {movies.map((m) => <MovieCard key={m._id} movie={m} />)}
+      </div>
+    </section>
+  );
 }
 
 export default Movies;

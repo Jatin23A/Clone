@@ -4,8 +4,11 @@ import Home from "./pages/Home";
 import Movies from "./pages/Movies";
 import Category from "./pages/Category";
 import Search from "./pages/Search";
-import "./App.css";
 import Login from "./pages/Login";
+import Register from "./pages/Register";
+import Watchlist from "./pages/Watchlist";
+import "./App.css";
+import "./extra.css";
 
 function App() {
   return (
@@ -18,7 +21,9 @@ function App() {
           <Route path="/movies" element={<Movies />} />
           <Route path="/category" element={<Category />} />
           <Route path="/search" element={<Search />} />
-          <Route path="/Login" element={<Login />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/watchlist" element={<Watchlist />} />
         </Routes>
       </main>
     </>
